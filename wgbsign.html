@@ -1,0 +1,461 @@
+<html>
+
+<head><!-- INSTRUCTIONS FOR USING THIS FORM ON YOUR SERVER This form can be used from your own homepage if you wish to modifythe way it looks! Here's how...Save it to the server where your homepageis located and call it "wgbsign.html", for example.Then modify the "Sign my guestbook" link on your homepage from<a href=http://mercury.guestworld.com/wgb/wgbsign.dbm?owner=genius04>Sign My Guestbook</a>to<a href=wgbsign.html>Sign My Guestbook</a>You can modify the look of this form but don't change the "form" tagor any of the input fields.(See the deluxe guestbook if you want to get crazy with it.)Note: You cannot add more fields to the list. It won't work!      See our deluxe guestbook server for such a thing at       http://mercury.guestworld.com/deluxe.start.dbm You can also change the "_required" input fields below to give peoplea message if they do not fill out certain fields properly, or at all.GOOD LUCK AND HAVE FUN WITH IT. USING THIS FORM ON YOUR SERVER WILLENABLE YOU TO HAVE THIS PAGE MATCH YOUR SITE PERFECTLY!!END OF INSTRUCTIONS!!!!!This form uses LiveFORM technology (http://www.patils.com/liveform.htm).LiveFORM technology and JavaScript routines used in this file are licensedfor use on a single URL and under the conditions as given at:http://www.patils.com/lf20lic.txtCopyright (C) 1996, 1997. Patil Systems, Inc. All rights reserved.Patent Pending.-->
+
+<title>Guestbook</title>
+</head>
+<script language="JavaScript">
+
+<!--
+var helpfocus = false ; // focus changes only from the first field
+var helpindg = false ;  // help is displayed in dialog box
+var helpinwin = true ;// help is displayed in a separate browser window.
+                       // This can be used for any amount of text.
+var ebcreatecgi = "http://www.patils.com/patils/cgi-bin/ebcard.htm";
+var ebhelphtm = "http://www.patils.com/cardinfo.htm"
+
+var origaction;
+var origmethod;
+var fillerwin;
+
+var gt = unescape('%3e');
+var inform = 0 ;
+var fname="";
+var lname="";
+var organization="";
+var address1="";
+var address2="";
+var city="";
+var state="";
+var zip="";
+var country="";
+var phone="";
+var fax="";
+var email="";
+var ccard="";
+var ccardexp="";
+var ccardnum="";
+var handfilled = true;
+var ebsaved = false ;
+var status = true ;
+
+fillerwin = self;
+
+function setvalue(lval, rval)
+{
+    var cmd, evalcmd ;var ttype ;var newval;
+  if (eval("document.LiveFORM." + lval ) != null)
+    eval("document.LiveFORM." + lval + ".value" + " = unescape(rval)") ;
+    return 0 ;
+}
+
+function gethnd()
+{
+  return (window.document.LiveFORM);
+}
+
+function getvalue(lval)
+{
+  rval =  (eval("document.LiveFORM." + lval + ".value" ));
+  return (rval);
+}
+
+function ckfield(lval)
+{
+  if (eval("document.LiveFORM." + lval ) == null)
+  return 0;
+else
+  return 1;
+}
+
+function createebcard()
+{
+ if ( navigator.appName.indexOf( "Microsoft Internet Explorer") != -1 )
+  window.location.href = "http://www.patils.com/ebwhole.htm";
+  else
+  {
+          fillerwin =  open("", "FillForm2");
+      if (fillerwin != null)
+      {
+        if (fillerwin.opener == null)
+            fillerwin.opener = self
+      }
+    fillerwin.location.href = "http://www.patils.com/ebwhole.htm";
+    handfilled = true;
+    ebsaved = true ;
+    return ;
+  }
+}
+
+function filler()
+{
+    var hottext = "ebCARD"
+    var eburl = ebhelphtm;
+    var uxeb = "" ;
+hottext.target = "new";
+
+    if(navigator.appVersion.indexOf("Win") != -1 )
+    {
+        fillerwin =  open("", "FillForm",
+'resizable=yes,toolbar=no,location=no,directories=no,status=no,'
++ 'menubar=no,scrollbars=no,copyhistory=yes,width=400,height=230');
+        fillerwin.document.writeln("<html" + gt +
+        "<BODY" +  gt
+ 
++  'You  have  not  created  your  '  )
+ 
+fillerwin.document.writeln(
+ 
+'<a  href="http://www.lpage.com/ebnow.html" target=new' +  gt
+ 
++  "  ebCARD</a"  +  gt  +  "  or  it  is  not  at  C:\\ebcard.htm.  "
+ 
++  "Please  manually  load  your  previously  stored  <b"  +  gt  +  "ebcard.htm</b"  +  gt
+ 
+        +  "  file  in  this  window.  </body"  +  gt  +  "</html"  +  gt);
+ 
+        fillerwin.document.close();
+ 
+
+        fillerwin.location.href= "http://junior.apk.net/~gray/Calc_games/";
+ 
+    }
+ 
+    else
+ 
+    {
+ 
+      fillerwin=  open("", "FillForm",
+ 
+            'resizable=yes,menubar=yes,scrollbars=yes,width=400,height=260');
+      fillerwin.document.writeln("<html"  +  gt)
+ 
+  fillerwin.document.writeln(
+ 
+  '<a  href="http://www.patils.com/ebwhole.htm" target=new'
+  +  gt  +  'Click  here  </a'  +  gt  )
+ 
+  fillerwin.document.writeln(
+ 
+  '  to  create  your  <a  href="http://www.patils.com/ebhelp.htm" target=new' +  gt
+ 
+  +  'ebCARD  </a'
+ 
+  +  gt  +  "otherwise  load  your  ebCARD  from  file  <b"  +  gt  +  "ebcard.htm</b"  +  gt
+ 
+      +  "  in  this  window.<p"  +  gt  );
+ 
+  uxeb= "";
+ 
+  if  (uxeb.length== 0  )
+ 
+  {
+ 
+
+  fillerwin.document.writeln(  "To  load  ebcard.htm  from  the  <b"  +  gt
+ 
+  +  "root  directory</b"  +  gt  +  "  click  button.");
+ 
+  fillerwin.document.writeln('<form  name="loadform"'  +  gt
+ 
+  +  '<input  type="button" name="loadbut" value="Load /ebcard.htm"');
+ 
+  fillerwin.document.writeln('onClick=\'location.href="file:/ebcard.htm"\''
+  +  gt  +  '</form'  +  gt  );
+ 
+
+  }
+ 
+  else
+ 
+  {
+ 
+
+  fillerwin.document.writeln(  "To  load  "  +  uxeb  +
+ 
+  ".htm  relative  to  the  root  directory"
+ 
+  +  "  click  button.");
+ 
+  fillerwin.document.writeln('<form  name="loadform"'  +  gt
+ 
+  +  '<input  type="button" name="loadbut" value="Load ' + uxeb + '.htm"');
+ 
+  fillerwin.document.writeln('onClick=\'location.href="file:/' +  uxeb  +'.htm"\''
+ 
+  +  gt  +  '</form'  +  gt  );
+ 
+  }
+ 
+      fillerwin.document.writeln(  "  </html"  +  gt);
+ 
+      fillerwin.document.close();
+ 
+    }
+ 
+
+    if  (fillerwin  != null)
+    {
+ 
+      if  (fillerwin.opener== null)
+ 
+          fillerwin.opener= self
+    }
+ 
+}
+ 
+
+function  about()
+ 
+{
+ 
+
+alert('The  LiveFORM  technology  used  in  this  form  allows  you  to  store  '
+ 
++  'information  entered  by  you  in  this  form  on  your  computer.  You  can  '
+ 
++  'use  this  saved  information  to  fill  other  LiveFORM(s)  by  clicking  just  '
+ 
++  'one  button  on  those  forms.'
+ 
++  '\nThis  locally  saved  information  will  act  as  your  Electronic  Business  '
+ 
++  'Card,  "ebCARD",  that  can  be  used  to  automatically  fill  out  LiveFORM.'
+ 
++  '\n\nTo  create  and  use  your  ebCARD:'
+ 
++  '\n     1.  Fill  out  this  form'
+ 
++  '\n     2.  Click  "Create  ebCARD"  button'
+ 
++  '\n     3.  Save  ebCARD  as  per  instructions'
+ 
++  '\n     4.  On  forms  that  can  accept  ebCARD,  click  "Accept  ebCARD"  or  "Fill-up  LiveFORM"  to  fill  the  form'
+ 
++  '\n\nFor  more  information,  visit:  http://www.patils.com');
+ 
+}
+ 
+
+function  winhelp()
+ 
+{
+ 
+        fillerwin=  open(ebhelphtm, "ebhelpwin",
+ 
+           "resizable=yes,scrollbars=yes,menubar=yes,width=400,height=360");
+}
+ 
+
+function  help()
+ 
+{
+ 
+    if  (helpindg)  about();
+ 
+    if  (helpinwin)  winhelp();
+ 
+}
+ 
+
+function  fnameselect(thisform)
+ 
+{
+ 
+    if  (inform== 0  )
+ 
+    {
+ 
+        inform= 1;
+        if  (helpfocus)
+ 
+            help();
+ 
+    }
+ 
+}
+ 
+
+function  setstatus(str){
+ 
+   top.defaultstatus= str;
+}
+ 
+
+function  okprocess(thisform)
+ 
+{
+ 
+    if  (fillerwin== self)
+ 
+    {
+ 
+        return  true;
+ 
+    }
+ 
+
+    if  (fillerwin.opener  != null)
+    {
+ 
+        if  (fillerwin.opener== self)
+ 
+        {
+ 
+            alert("Still  creating  ebCARD."
+ 
+            +  "\nSave  your  ebCARD  and  dismiss  the  window  containing  ebCARD."
+ 
+            +  "\nClick  submit  again.");
+ 
+            return  false;
+ 
+        }
+ 
+    }
+ 
+    return  true;
+ 
+}
+ 
+
+function  cancelprocess(thisform)
+ 
+{
+ 
+    //  Your  handler  for  cancel  form  goes  here
+ 
+}
+ 
+
+function  onld()
+ 
+{
+ 
+    //  Your  handler  for  onLoad  event  goes  here
+ 
+}
+ 
+
+function  afterfill()
+ 
+{
+ 
+    inform= 1;
+    handfilled= false;
+}
+ 
+
+//  -->
+
+
+</script>
+<script language="Javascript">
+
+
+        <!--
+        // Copyright 1996 - Frank Ammermann (Frank@Ammermann.com)
+        // http://www.et-inf.fho-emden.de/~frank
+        // Feel free to "steal" this code provided that you leave the
+        // notice as is !!!!!
+
+        // Add this to your form tag:
+        // <form action="..." name=guestbook onSubmit="return validateForm()">
+
+        function deleteBlanks(str){
+        var foundBlank = 1;
+        var len;
+        len = str.length;
+        if (len == 0) return str;
+        while (foundBlank == 1)
+            {   var indx;
+                indx = str.indexOf(" ", 0);
+                if (indx == -1) {foundBlank =0;}
+                else {str= str.substring(0, indx) +
+                        str.substring(indx + 1, len);}}
+        return str;}
+
+        function validateForm() {
+
+        var localPost = deleteBlanks(document.LiveFORM.lfgbcomment.value.toLowerCase());
+
+        if (localPost=="")
+              {alert('A guest without a comment is like a ship without a sail!');
+                return false}
+        else if (localPost.indexOf("<form")!=-1)
+              {alert('No forms in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<script")!=-1)
+              {alert('No scripts in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<applet")!=-1)
+              {alert('No applets in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<title")!=-1)
+              {alert('No title-tag in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<body")!=-1)
+              {alert('No body-tag in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<object")!=-1)
+              {alert('No ActiveX in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<embed")!=-1)
+              {alert('No Sound in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<meta")!=-1)
+              {alert('No meta info in the comment, please !');
+               return false}
+        else if (localPost.indexOf("<bgsound")!=-1)
+              {alert('No Sound in the comment, please !');
+               return false}
+        else return true;}
+
+        // End of Script (c) Frank Ammermann (Frank@Ammermann.com)-->
+
+
+
+</script>
+
+
+<body bgcolor="#0000FF" text="#FFFF00" link="#00FFFF">
+<font face="arial,helvetica" color="blue" size="+2">
+
+<p align="center"></font><strong><font face="Bradley Hand ITC" size="6">Sign My Guestbook</font></strong></p>
+<a HREF="JavaScript: filler()">
+
+<p align="center"><img src="http://junior.apk.net/~gray/line_a_tan2.gif" alt="line_a_tan2.gif (7192 bytes)" border="0" width="600" height="15"></a></p>
+
+<p align="center">&nbsp;</p>
+<font face="arial, helvetica">
+
+<form method="post" name="LiveFORM" action="http://mercury.guestworld.com/wgb/wgb.dbm?owner=genius04">
+  <input type="hidden" name="copyright" value="Copyright (C) 1996,1997 Patil Systems, Inc."><input type="hidden" name="verno" value="1.7"><input type="hidden" name="lfgbcomment_required" value="What's a guest without comments? :)"><input type="hidden" name="fullname_required" value="What's a guest without a name? :)"><p><input name="fullname" size="30" maxlength="60"> What's your name?</p>
+  <p><input name="email" size="30">&nbsp;&nbsp;E-mail Address?</p>
+  <p><input name="homepage" value="http://" size="30">&nbsp;&nbsp;Homepage URL?</p>
+  <p><input name="hometitle" size="30" maxlength="60">&nbsp;&nbsp;Title of your homepage?</p>
+  <p><input name="location" size="30">&nbsp;&nbsp;Where are you from? </p>
+  <p><!--here you can change the options for how your guests found your site--> <select NAME="reference" size="1">
+    <option>From www.GuestWorld.com </option>
+    <option>From Geocities </option>
+    <option>From AngelFire </option>
+    <option>From LinkExchange </option>
+    <option>Net Search </option>
+    <option>NewsGroups </option>
+    <option>SimpleNet </option>
+    <option>Word of Mouth </option>
+    <option>Advertisment/Brochure </option>
+    <option selected>Just Surfed On In!</option>
+  </select>&nbsp;&nbsp;How did you find my page?</p>
+  <p><input name="private" type="checkbox" value="ON">Check here if you would like this to
+  be a private message!</p>
+  <p>Comments:<br>
+  <textarea NAME="lfgbcomment" COLS="48" ROWS="8"></textarea></p>
+  <p><input type="submit" value="Sign Guestbook"> <input type="reset" value="Clear"> </p>
+</form>
+<a href="http://www.GuestWorld.com/">
+
+<p>http://www.GuestWorld.com/</a> </p>
+</font>
+</body>
+</html>

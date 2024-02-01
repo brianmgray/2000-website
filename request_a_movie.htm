@@ -1,0 +1,56 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Request a Movie</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+
+<meta NAME="Designer" CONTENT="Tom Walker">
+<meta NAME="Company" CONTENT="Walker Enterprises">
+<meta name="Microsoft Theme" content="none"></head>
+<script LANGUAGE="javascript">
+		<!-- 		
+		function checkfields() {
+			if (myForm.movietitle.value == ""){
+				 alert("Please Enter A Movie!");
+				 myForm.movietitle.focus();
+				 return false;
+			}
+			if (myForm.email.value == ""){
+				 myForm.email.focus();
+				 return false;
+			}
+
+			if (myForm.send[0].checked == false && myForm.send[1].checked == false){
+				 return false;
+			}
+		}
+		-->
+	</script>
+
+
+<body bgcolor="#00FF00" text="#FF0000">
+
+<p><font face="Beesknees ITC" size="6">Request a Movie</font></p>
+
+<hr>
+<!-- This script has been in the http://www.javascripts.com Javascript Public Library! -->
+<!-- Note that though this material may have been in a public depository, certain author copyright restrictions may apply. -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<form METHOD="POST" ACTION="mailto:genius274@hotmail.com" NAME="myForm" onsubmit="return checkfields()">
+  <dl>
+    <dt>Movie title: <input TYPE="text" SIZE="40" NAME="movietitle"></dt>
+    <dt>Your email address: <input TYPE="text" SIZE="40" NAME="email"></dt>
+    <dt>&nbsp;</dt>
+    <dt>Do you want an email back when I add the
+      movie?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+      <input TYPE="radio" NAME="send" VALUE="Send_email">Yes&nbsp;&nbsp;&nbsp; &nbsp;<input TYPE="radio" NAME="send" VALUE="Do_not_send_email">No <br>
+      <br>
+      <input TYPE="submit" VALUE="Tell Me the Movie"> <input TYPE="reset" VALUE="Clear"> </dt>
+  </dl>
+</form>
+
+<h5 align="left">Last revised:<!--webbot bot="TimeStamp" S-Type="EDITED" S-Format="%B %d, %Y" startspan -->February 02, 2000<!--webbot bot="TimeStamp" endspan i-checksum="41392" --></h5>
+</body>
+</html>

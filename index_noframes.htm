@@ -1,0 +1,417 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 3.0">
+<title>Brian's Homepage</title>
+
+
+<script LANGUAGE="JavaScript" FPTYPE="dynamicanimation">
+<!--
+  // If you want to change this script, you must also make the following
+  // changes so that FrontPage will not overwrite your new script.
+  // In the script tag, change type="dynamicanimation" to type="mydynamicanimation"
+  // In the first script statement, change "dynamicanimation" to "mydynamicanimation"
+  // Throughout the HTML content, change dynamicanimation= to mydynamicanimation=
+  // Change function dynAnimation to function mydynAnimation
+  // In the body tag, change onload="dynAnimation()" to onload="mydynAnimation()"
+  dynamicanimAttr = "dynamicanimation"
+  animateElements = new Array()
+  currentElement = 0
+  speed = 0
+  stepsZoom = 8
+  stepsWord = 8
+  stepsFly = 12
+  stepsSpiral = 16
+  steps = stepsZoom
+  step = 0
+  outString = ""
+  function dynAnimation()
+  {
+    var ms = navigator.appVersion.indexOf("MSIE")
+    ie4 = (ms>0) && (parseInt(navigator.appVersion.substring(ms+5, ms+6)) >= 4)
+    if(!ie4)
+    {
+      if((navigator.appName == "Netscape") &&
+         (parseInt(navigator.appVersion.substring(0, 1)) >= 4))
+      {
+        for (index=document.layers.length-1; index >= 0; index--)
+        {
+            layer=document.layers[index]
+            if (layer.left==10000)
+                layer.left=0
+        }
+      }
+      return
+    }
+    for (index=document.all.length-1; index >= document.body.sourceIndex; index--)
+    {
+      el = document.all[index]
+      animation = el.getAttribute(dynamicanimAttr, false)
+      if(null != animation)
+      {
+        if(animation == "dropWord" || animation == "flyTopRightWord" || animation == "flyBottomRightWord")
+        {
+          ih = el.innerHTML
+          outString = ""
+          i1 = 0
+          iend = ih.length
+          while(true)
+          {
+            i2 = startWord(ih, i1)
+            if(i2 == -1)
+              i2 = iend
+            outWord(ih, i1, i2, false, "")
+            if(i2 == iend)
+              break
+            i1 = i2
+            i2 = endWord(ih, i1)
+            if(i2 == -1)
+              i2 = iend
+            outWord(ih, i1, i2, true, animation)
+            if(i2 == iend)
+              break
+            i1 = i2
+          }
+          document.all[index].innerHTML = outString
+          document.all[index].style.posLeft = 0
+          document.all[index].setAttribute(dynamicanimAttr, null)
+        }
+        if(animation == "zoomIn" || animation == "zoomOut")
+        {
+          ih = el.innerHTML
+          outString = "<SPAN " + dynamicanimAttr + "=\"" + animation + "\" style=\"position: relative; left: 10000;\">"
+          outString += ih
+          outString += "</SPAN>"
+          document.all[index].innerHTML = outString
+          document.all[index].style.posLeft = 0
+          document.all[index].setAttribute(dynamicanimAttr, null)
+        }
+      }
+    }
+    i = 0
+    for (index=document.body.sourceIndex; index < document.all.length; index++)
+    {
+      el = document.all[index]
+      animation = el.getAttribute(dynamicanimAttr, false)
+      if (null != animation)
+      {
+        if(animation == "flyLeft")
+        {
+          el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth
+          el.style.posTop = 0
+        }
+        else if(animation == "flyRight")
+        {
+          el.style.posLeft = 10000-offsetLeft(el)+document.body.offsetWidth
+          el.style.posTop = 0
+        }
+        else if(animation == "flyTop" || animation == "dropWord")
+        {
+          el.style.posLeft = 0
+          el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight
+        }
+        else if(animation == "flyBottom")
+        {
+          el.style.posLeft = 0
+          el.style.posTop = document.body.scrollTop-offsetTop(el)+document.body.offsetHeight
+        }
+        else if(animation == "flyTopLeft")
+        {
+          el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth
+          el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight
+        }
+        else if(animation == "flyTopRight" || animation == "flyTopRightWord")
+        {
+          el.style.posLeft = 10000-offsetLeft(el)+document.body.offsetWidth
+          el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight
+        }
+        else if(animation == "flyBottomLeft")
+        {
+          el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth
+          el.style.posTop = document.body.scrollTop-offsetTop(el)+document.body.offsetHeight
+        }
+        else if(animation == "flyBottomRight" || animation == "flyBottomRightWord")
+        {
+          el.style.posLeft = 10000-offsetLeft(el)+document.body.offsetWidth
+          el.style.posTop = document.body.scrollTop-offsetTop(el)+document.body.offsetHeight
+        }
+        else if(animation == "spiral")
+        {
+          el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth
+          el.style.posTop = document.body.scrollTop-offsetTop(el)-el.offsetHeight
+        }
+        else if(animation == "zoomIn")
+        {
+          el.style.posLeft = 10000
+          el.style.posTop = 0
+        }
+        else if(animation == "zoomOut")
+        {
+          el.style.posLeft = 10000
+          el.style.posTop = 0
+        }
+        else
+        {
+          el.style.posLeft = 10000-offsetLeft(el)-el.offsetWidth
+          el.style.posTop = 0
+        }
+        el.initLeft = el.style.posLeft
+        el.initTop = el.style.posTop
+        animateElements[i++] = el
+      }
+    }
+    window.setTimeout("animate();", speed)
+  }
+  function offsetLeft(el)
+  {
+    x = el.offsetLeft
+    for (e = el.offsetParent; e; e = e.offsetParent)
+      x += e.offsetLeft;
+    return x
+  } 
+  function offsetTop(el)
+  {
+    y = el.offsetTop
+    for (e = el.offsetParent; e; e = e.offsetParent)
+      y += e.offsetTop;
+    return y
+  } 
+  function startWord(ih, i)
+  {
+    for(tag = false; i < ih.length; i++)
+    {
+      c = ih.charAt(i)
+      if(c == '<')
+        tag = true
+      if(!tag)
+        return i
+      if(c == '>')
+        tag = false
+    }
+    return -1
+  }
+  function endWord(ih, i)
+  {
+    nonSpace = false
+    space = false
+    while(i < ih.length)
+    {
+      c = ih.charAt(i)
+      if(c != ' ')
+        nonSpace = true
+      if(nonSpace && c == ' ')
+        space = true
+      if(c == '<')
+        return i
+      if(space && c != ' ')
+        return i
+      i++
+    }
+    return -1
+  }
+  function outWord(ih, i1, i2, dyn, anim)
+  {
+    if(dyn)
+      outString += "<SPAN " + dynamicanimAttr + "=\"" + anim + "\" style=\"position: relative; left: 10000;\">"
+    outString += ih.substring(i1, i2)
+    if(dyn)
+      outString += "</SPAN>"
+  }
+  function animate()
+  {
+    el = animateElements[currentElement]
+    animation = el.getAttribute(dynamicanimAttr, false)
+    step++
+    if(animation == "spiral")
+    {
+      steps = stepsSpiral
+      v = step/steps
+      rf = 1.0 - v
+      t = v * 2.0*Math.PI
+      rx = Math.max(Math.abs(el.initLeft), 200)
+      ry = Math.max(Math.abs(el.initTop),  200)
+      el.style.posLeft = Math.ceil(-rf*Math.cos(t)*rx)
+      el.style.posTop  = Math.ceil(-rf*Math.sin(t)*ry)
+    }
+    else if(animation == "zoomIn")
+    {
+      steps = stepsZoom
+      el.style.fontSize = Math.ceil(50+50*step/steps) + "%"
+      el.style.posLeft = 0
+    }
+    else if(animation == "zoomOut")
+    {
+      steps = stepsZoom
+      el.style.fontSize = Math.ceil(100+200*(steps-step)/steps) + "%"
+      el.style.posLeft = 0
+    }
+    else
+    {
+      steps = stepsFly
+      if(animation == "dropWord" || animation == "flyTopRightWord" || animation == "flyBottomRightWord")
+        steps = stepsWord
+      dl = el.initLeft / steps
+      dt = el.initTop  / steps
+      el.style.posLeft = el.style.posLeft - dl
+      el.style.posTop = el.style.posTop - dt
+    }
+    if (step >= steps) 
+    {
+      el.style.posLeft = 0
+      el.style.posTop = 0
+      currentElement++
+      step = 0
+    }
+    if(currentElement < animateElements.length)
+      window.setTimeout("animate();", speed)
+  }
+//-->
+</script><meta name="Microsoft Theme" content="laverne 011"><meta name="Microsoft Border" content="none, default"></head>
+
+<body onload="dynAnimation()" background="_themes/laverne/lvbkgnd.gif" bgcolor="#CCCCCC" text="#333333" link="#339999" vlink="#666666" alink="#FFFFFF"><!--mstheme--><font face="trebuchet ms, arial, helvetica">
+<div align="center"><center>
+
+<!--mstheme--></font><table border="0" width="100%" height="81">
+  <tr>
+    <td width="50%" height="77" dynamicanimation="flyTop" style="position: relative !important; left: 10000 !important"><!--mstheme--><font face="trebuchet ms, arial, helvetica"><marquee style="background-color: rgb(0,0,0); color: rgb(255,255,255); font-family: fantasy, monospace; font-size: 40pt" bgcolor="#000000" border="0" width="406" height="76" align="middle">Welcome To Brian's Homepage</marquee><!--mstheme--></font></td>
+    <td width="50%" height="77" dynamicanimation="flyTop" style="position: relative !important; left: 10000 !important"><!--mstheme--><font face="trebuchet ms, arial, helvetica"><img src="bricharact.gif" alt="click on left lens for a funny sound from Airplane!" border="0" width="158" height="214"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="trebuchet ms, arial, helvetica">
+</center></div><!-- V3 Redirect Services Banner start -->
+
+
+<p align="left"><font color="#000000" size="2">(This site best viewed in 640 x 480
+resolution)&nbsp; </font></p>
+
+<p><font color="#000000">You are the <img src="CouAnim3.gif" alt="CouAnim3.gif (38787 bytes)" border="0" WIDTH="120" HEIGHT="20"> person to visit my site.&nbsp;&nbsp; </font></p>
+
+<p align="center"><embed src="inferno.mid" autostart="true" loop="true" mastercontrol="console" height="30" width="118"><noembed>Sorry, you need Plug-In support to view this.</noembed></p>
+
+<!--mstheme--></font><table border="0" cellpadding="0" width="100%">
+  <tr>
+    <td width="82%"><!--mstheme--><font face="trebuchet ms, arial, helvetica"><img src="wel13.gif" alt="wel13.gif (13766 bytes)" align="center" WIDTH="120" HEIGHT="40"> to my
+    homepage. &nbsp; I hope you like it.&nbsp; <p>If you want to know about me, visit <a href="abitaboutme.htm">A Bit About Me</a><!--mstheme--></font></td>
+    <td width="18%"><!--mstheme--><font face="trebuchet ms, arial, helvetica"><img src="manjump.gif" width="76" height="98" alt="manjump.gif (14784 bytes)" align="texttop" border="0"><!--mstheme--></font></td>
+  </tr>
+</table><!--mstheme--><font face="trebuchet ms, arial, helvetica">
+
+<p>&nbsp;</p>
+
+<p align="center">&nbsp;<img src="look.gif" alt="look.gif (24205 bytes)" width="87" height="47"> &nbsp;&nbsp; </p>
+
+<p align="center">
+<applet code="fphover.class" codebase="_fpclass/" width="265" height="39">
+  <param name="text" value="Movies Page">
+  <param name="color" value="#00FF00">
+  <param name="hovercolor" value="#FF0000">
+  <param name="textcolor" value="#FFFFFF">
+  <param name="bgcolor" value="#00FF00">
+  <param name="effect" value="glow">
+  <param name="url" value="movies.htm" valuetype="ref">
+  <param name="font" value="Helvetica">
+  <param name="fontstyle" value="regular">
+  <param name="fontsize" value="36">
+  <param name="image" value valuetype="ref">
+  <param name="hoverimage" value valuetype="ref">
+  <param name="sound" value valuetype="ref">
+  <param name="hoversound" value valuetype="ref">
+</applet>
+</p>
+
+<p align="center">
+<applet code="fphover.class" codebase="_fpclass/" width="265" height="39">
+  <param name="text" value="Downlods Page">
+  <param name="color" value="#000000">
+  <param name="hovercolor" value="#FFFFFF">
+  <param name="textcolor" value="#FFFFFF">
+  <param name="bgcolor" value="#000000">
+  <param name="effect" value="lightGlow">
+  <param name="url" value="downloads.htm" valuetype="ref">
+  <param name="font" value="Helvetica">
+  <param name="fontstyle" value="regular">
+  <param name="fontsize" value="36">
+  <param name="image" value valuetype="ref">
+  <param name="hoverimage" value valuetype="ref">
+  <param name="sound" value valuetype="ref">
+  <param name="hoversound" value valuetype="ref">
+</applet>
+</p>
+
+<p align="center">
+<applet code="fphover.class" codebase="_fpclass/" width="265" height="39">
+  <param name="text" value="Free Pics">
+  <param name="color" value="#C0C0C0">
+  <param name="hovercolor" value="#FFFF00">
+  <param name="textcolor" value="#FFFFFF">
+  <param name="effect" value="glow">
+  <param name="url" value="picture.htm" valuetype="ref">
+  <param name="font" value="Helvetica">
+  <param name="fontstyle" value="regular">
+  <param name="fontsize" value="36">
+  <param name="bgcolor" value="#C0C0C0">
+  <param name="image" value valuetype="ref">
+  <param name="hoverimage" value valuetype="ref">
+  <param name="sound" value valuetype="ref">
+  <param name="hoversound" value="sheep01.wav" valuetype="ref">
+</applet>
+</p>
+
+<p align="center">
+<applet code="fphover.class" codebase="_fpclass/" width="265" height="39">
+  <param name="text" value="Humor">
+  <param name="color" value="#008000">
+  <param name="hovercolor" value="#FFFF00">
+  <param name="textcolor" value="#FFFFFF">
+  <param name="effect" value="reverseGlow">
+  <param name="url" value="humor.html" valuetype="ref">
+  <param name="font" value="Helvetica">
+  <param name="fontstyle" value="regular">
+  <param name="fontsize" value="36">
+  <param name="image" value valuetype="ref">
+  <param name="hoverimage" value valuetype="ref">
+  <param name="sound" value valuetype="ref">
+  <param name="hoversound" value="haha.wav" valuetype="ref">
+</applet>
+</p>
+
+<p align="center">
+<applet code="fphover.class" codebase="_fpclass/" width="265" height="39">
+  <param name="text" value="Links">
+  <param name="color" value="#800000">
+  <param name="hovercolor" value="#FF0000">
+  <param name="textcolor" value="#FFFFFF">
+  <param name="effect" value="reverseGlow">
+  <param name="url" value="links.htm" valuetype="ref">
+  <param name="bgcolor" value="#C0C0C0">
+  <param name="image" value valuetype="ref">
+  <param name="hoverimage" value valuetype="ref">
+  <param name="sound" value valuetype="ref">
+  <param name="hoversound" value valuetype="ref">
+  <param name="font" value="Helvetica">
+  <param name="fontstyle" value="regular">
+  <param name="fontsize" value="36">
+</applet>
+</p>
+
+<p><img src="line_a_swirl.gif" alt="construct_line_1.gif (1087 bytes)" width="593" height="15"> </p>
+
+<p align="center"><a href="wgbsign.html">Sign my Guestbook</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="http://mercury.guestworld.com/wgb/wgbview.dbm?owner=genius04">View my Guestbook</a><a href="wgbsign.html"></p>
+</a>
+
+<p align="center"><a href="mailto:genius274@hotmail.com"><img src="purple_mail.gif" alt="e-mail.gif (10305 bytes)" border="0" WIDTH="80" HEIGHT="40"> <!--webbot bot="HTMLMarkup" StartSpan --><NOEMBED>
+<!-- if we are here there is no plug-in support -->
+	<A HREF="WEB_ADDRESS">
+	<img src="email.gif" Alt="This is a still image of a Parable Thing">
+	</A>
+
+</NOEMBED>
+<!--webbot BOT="HTMLMarkup" endspan -->- Send me e-mail</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="Comments8.htm"><img src="anim_phone.gif" alt="anim_phone.gif (1664 bytes)" border="0" width="60" height="56"> - Comments?</a></p>
+
+<p align="center">&nbsp;</p>
+
+<p align="center"><a href="http://cdnow.com/from=sr-730760"><img src="music.gif" alt="music.gif (1743 bytes)" border="0" WIDTH="151" HEIGHT="27"></a></p>
+
+<p align="center"><img src="Burstani.gif" alt="Happy.gif (21364 bytes)" width="608" height="18"></p>
+<!--mstheme--></font></body>
+</html>
